@@ -1,0 +1,54 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload{
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.upload button {
+    cursor: pointer;
+}
+
+.files{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: 10%;
+}
+
+.existing{
+    display:flex;
+    max-width: 50%;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.indvfiles{
+    border: 1px solid black;
+    max-width: 20%;
+    padding: 10px;
+}
+
+.uploaded-files{
+    margin-top: 50px;
+}
+
+@media(max-width : 768px) {
+    .existing {
+    max-width: 90%;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    }
+}
