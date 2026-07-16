@@ -32,8 +32,7 @@ SE25UCSE070/
 ├── uploads
 └── views
     ├── home.ejs
-    ├── new.ejs
-    └── view.ejs
+    └── new.ejs
 ```
 ---
 

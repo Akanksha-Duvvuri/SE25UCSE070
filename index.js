@@ -13,6 +13,16 @@ const port = 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const uploadDir = path.join(__dirname, "uploads");
+fs.mkdirSync(uploadDir, { recursive: true });
+
+const upload = multer({
+    dest: uploadDir,
+    limits: { fileSize: 20 * 1024 * 1024 },
+});
+
+const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf", ".txt"];
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -50,22 +60,22 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     if (!req.file) {
         return res.status(400).send("No file uploaded");
     }
-
+    
     const ext = path.extname(req.file.originalname).toLowerCase();
     if (!allowedExtensions.includes(ext)) {
         fs.unlinkSync(req.file.path);
         return res.status(400).send("File type not allowed");
     }
 
-    const _id = new mongoose.Types.ObjectId();
+    const _id = new mongoose.Types.ObjectId(); 
     const now = new Date();
     const year = String(now.getFullYear());
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const subDir = path.join(uploadDir, year, month);
-    fs.mkdirSync(subDir, { recursive: true });
+    fs.mkdirSync(subDir, { recursive: true }); 
 
     const storedFileName = path.join(year, month, `${_id}${ext}`);
-    const finalPath = path.join(uploadDir, storedFileName);
+    const finalPath = path.join(uploadDir, storedFileName); 
 
     fs.renameSync(req.file.path, finalPath);
 
