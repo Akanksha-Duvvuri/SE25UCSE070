@@ -2,7 +2,7 @@
 
 Upload a file / multiple files and it gets saved to the sysetm
 
-**Stack:** Express · MongoDB · JavaScript· EJS · CSS · BootStrap
+**Stack:** Express · MongoDB · JavaScript · EJS · CSS · BootStrap
 
 ---
 
@@ -15,7 +15,6 @@ Upload a file / multiple files and it gets saved to the sysetm
 |Download files|
 |Delete files|
 |Stores files metadata in a database|
-
 ---
 
 ## Project Structure
@@ -31,7 +30,6 @@ SE25UCSE070/
 │   └── home.css
 ├── README.md
 ├── uploads
-│   └── 84a04d1fd5130960bf1e85c6348d8ffe
 └── views
     ├── home.ejs
     ├── new.ejs
@@ -67,7 +65,12 @@ SE25UCSE070/
 ## Architecture Overview
 
 ```
-Browser → Express routes (index.js) → Multer (parses multipart upload) →   writes file to uploads/ →  saves metadata row to MongoDB
+1. Browser 
+2. Express routes (index.js) 
+3. Multer (parses multipart upload) 
+4. Writes file to "uploads/" 
+5. Saves metadata row to MongoDB
+
 ```
 
 File bytes live on disk in `uploads/` and the metadata lives in MongoDB, in the `formats` collection.
@@ -79,7 +82,8 @@ File bytes live on disk in `uploads/` and the metadata lives in MongoDB, in the 
 - **Delete ordering:** The DB row is deleted first, then the file on disk. If the disk delete fails afterward, there will be a harmless leftover file and no DB record pointing to that file
 
 ## Assumptions Made
-- Files are stored flat in `uploads/`, with no subfolder organization
+
+
 
 ## Future Improvements
 
