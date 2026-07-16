@@ -21,7 +21,6 @@ const upload = multer({
     limits: { fileSize: 20 * 1024 * 1024 },
 });
 
-const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf", ".txt"];
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -56,45 +55,47 @@ app.get("/upload", (req, res) => {
     res.render("new", { title: "Upload Page" });
 });
 
-app.post("/upload", upload.single("file"), async (req, res) => {
-    if (!req.file) {
-        return res.status(400).send("No file uploaded");
-    }
-    
-    const ext = path.extname(req.file.originalname).toLowerCase();
-    if (!allowedExtensions.includes(ext)) {
-        fs.unlinkSync(req.file.path);
-        return res.status(400).send("File type not allowed");
+
+app.post("/upload", upload.array("file", 10), async (req, res) => {
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).send("No files uploaded");
     }
 
-    const _id = new mongoose.Types.ObjectId(); 
-    const now = new Date();
-    const year = String(now.getFullYear());
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const subDir = path.join(uploadDir, year, month);
-    fs.mkdirSync(subDir, { recursive: true }); 
+    const savedFiles = [];
 
-    const storedFileName = path.join(year, month, `${_id}${ext}`);
-    const finalPath = path.join(uploadDir, storedFileName); 
+    for (const file of req.files) {
+        const ext = path.extname(file.originalname).toLowerCase();
 
-    fs.renameSync(req.file.path, finalPath);
+        const _id = new mongoose.Types.ObjectId();
+        const now = new Date();
+        const year = String(now.getFullYear());
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const subDir = path.join(uploadDir, year, month);
+        fs.mkdirSync(subDir, { recursive: true });
 
-    const newFile = new fileFormat({
-        _id,
-        originalFileName: req.file.originalname,
-        storedFileName,
-        fileSize: req.file.size,
-        MIMEType: req.file.mimetype,
-    });
+        const storedFileName = path.join(year, month, `${_id}${ext}`);
+        const finalPath = path.join(uploadDir, storedFileName);
 
-    try {
-        await newFile.save();
-        res.redirect("/");
-    } catch (err) {
-        console.log(err);
-        fs.unlinkSync(finalPath);
-        res.status(500).send("Upload failed");
+        fs.renameSync(file.path, finalPath);
+
+        const newFile = new fileFormat({
+            _id,
+            originalFileName: file.originalname,
+            storedFileName,
+            fileSize: file.size,
+            MIMEType: file.mimetype,
+        });
+
+        try {
+            await newFile.save();
+            savedFiles.push(file.originalname);
+        } catch (err) {
+            console.log(err);
+            fs.unlinkSync(finalPath);
+        }
     }
+
+    res.redirect("/");
 });
 
 app.get("/files/:id/download", async (req, res) => {

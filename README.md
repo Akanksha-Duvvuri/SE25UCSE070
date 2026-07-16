@@ -2,7 +2,7 @@
 
 Upload a file / multiple files and it gets saved to the sysetm
 
-**Stack:** Express · MongoDB · JavaScript · EJS · CSS · BootStrap
+**Stack:** Express · MongoDB · JavaScript · EJS · CSS  · Multer 
 
 ---
 
@@ -86,6 +86,5 @@ File bytes live on disk in `uploads/` and the metadata lives in MongoDB, in the 
 
 ## Future Improvements
 
-- Organize `uploads/` into date-based subfolders instead of one directory.
 - Add authentication for more safety
 - Expand it to allow users to upload folders 
