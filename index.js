@@ -54,7 +54,6 @@ app.get("/upload", (req, res) => {
     res.render("new");
 });
 
-
 app.post("/upload", upload.array("file", 10), async (req, res) => {
     if (!req.files || req.files.length === 0) {
         return res.status(400).send("No files uploaded");
@@ -107,7 +106,8 @@ app.get("/files/:id/download", async (req, res) => {
 });
 
 app.get("/files/:id/view", async (req, res) => {
-    const file = await fileFormat.findById(req.params.id);
+    let { id } = req.params;
+    const file = await fileFormat.findById(id);
     if (!file) return res.status(404).send("File not found");
 
     const filePath = path.join(uploadDir, file.storedFileName);
