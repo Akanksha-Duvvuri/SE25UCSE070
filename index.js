@@ -21,7 +21,6 @@ const upload = multer({
     limits: { fileSize: 20 * 1024 * 1024 },
 });
 
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -44,7 +43,7 @@ app.listen(port, "127.0.0.1", () => {
 app.get("/", async (req, res) => {
     try {
         const fileFormats = await fileFormat.find().sort({ uploadDate: -1 });
-        res.render("home", { title: "Home Page", fileFormats });
+        res.render("home", { fileFormats });
     } catch (err) {
         console.log(err);
         res.status(500).send("Could not load files");
@@ -52,7 +51,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/upload", (req, res) => {
-    res.render("new", { title: "Upload Page" });
+    res.render("new");
 });
 
 

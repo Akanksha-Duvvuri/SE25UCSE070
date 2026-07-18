@@ -1,16 +1,11 @@
 {
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/system": "^9.2.0",
-    "bootstrap": "^5.3.8",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
     "method-override": "^3.0.0",
     "mongoose": "^9.7.4",
     "multer": "^2.2.0",
-    "nodemon": "^3.1.14",
-    "uuid": "^14.0.1"
+    "nodemon": "^3.1.14"
   },
   "type": "module"
 }

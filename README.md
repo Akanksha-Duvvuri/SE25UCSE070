@@ -1,6 +1,6 @@
-# File Upload and Storage Service
+# File Upload and Storage System
 
-Upload a file / multiple files and it gets saved to the sysetm
+Upload a file / multiple files and it gets saved to the disk
 
 **Stack:** Express · MongoDB · JavaScript · EJS · CSS  · Multer 
 
@@ -82,7 +82,7 @@ File bytes live on disk in `uploads/` and the metadata lives in MongoDB, in the 
 
 ## Assumptions Made
 
-
+- User will not delete the file directly from the server
 
 ## Future Improvements
 
